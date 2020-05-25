@@ -1,5 +1,5 @@
 {
-  "name": "smurr",
+  "name": "smur",
   "version": "1.0.8",
   "description": "A ExpressJS REST API server with Socket.io, Mongodb, Redis, and Yup built-in for headstart. Check README for more info.",
   "main": "index.js",
