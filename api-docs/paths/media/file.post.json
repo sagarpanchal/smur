@@ -1,0 +1,61 @@
+{
+  "/media/file": {
+    "post": {
+      "summary": "Upload file",
+      "description": "Upload file and get file metadata",
+      "tags": ["Media"],
+      "security": [{ "BearerToken": [] }],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "required": [],
+              "type": "object",
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "originalname": {
+                    "type": "string"
+                  },
+                  "encoding": {
+                    "type": "string"
+                  },
+                  "mimetype": {
+                    "type": "string"
+                  },
+                  "acl": {
+                    "type": "string"
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "etag": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

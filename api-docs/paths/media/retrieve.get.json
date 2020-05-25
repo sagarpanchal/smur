@@ -1,0 +1,22 @@
+{
+  "/media/{key}": {
+    "get": {
+      "summary": "Get file/image",
+      "description": "Returns file from storage",
+      "requestBody": null,
+      "tags": ["Media"],
+      "responses": {
+        "200": {
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
