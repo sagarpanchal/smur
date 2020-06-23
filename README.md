@@ -4,8 +4,8 @@
 
 - node >= v10.16.3
 - mongodb >= v4.2
-- redis-server >= v4.0.9 (for socket.io and cacheing)
-  - wsl (only required on windows to run redis-server)
+- ~~redis-server >= v4.0.9 (for socket.io and cacheing)~~
+  - ~~wsl (only required on windows to run redis-server)~~
 
 ### 🔧 Installing
 
