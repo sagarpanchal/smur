@@ -1,0 +1,61 @@
+{
+  "/media/image": {
+    "post": {
+      "summary": "Upload image",
+      "description": "Upload image and get image metadata",
+      "tags": ["Media"],
+      "security": [{ "BearerToken": [] }],
+      "requestBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "required": [],
+              "type": "object",
+              "properties": {
+                "image": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "200": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "originalname": {
+                    "type": "string"
+                  },
+                  "encoding": {
+                    "type": "string"
+                  },
+                  "mimetype": {
+                    "type": "string"
+                  },
+                  "acl": {
+                    "type": "string"
+                  },
+                  "key": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "etag": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

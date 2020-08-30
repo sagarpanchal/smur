@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    title #{subject}
+    style
+      include email.min.css
+  body(align='center')
+    br
+    h2 Verify Email
+    hr
+    p #{name}, click the button below to verify your email address
+    br
+    a(class='btn', role='button', target='_blank', draggable='false', href=link, title='Verify') Verify
