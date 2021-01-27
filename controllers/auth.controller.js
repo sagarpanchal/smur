@@ -10,6 +10,7 @@ const validatePassword = require('utils/yup/validate/common/email.validate')
 const sendVerificationEmail = require('utils/email/sendVerificationEmail')
 const sendPasswordResetEmail = require('utils/email/sendPasswordResetEmail')
 const httpErrors = require('utils/httpErrors')
+const { isArray } = require('utils/utils')
 const jwt = require('utils/jwt')
 
 exports.signInWithProvider = async (req, res) => {
@@ -69,16 +70,6 @@ exports.signIn = async (req, res) => {
   const accessToken = await jwt.generate({ uid: userFound._id, sid: sessionSaved.uuid })
   const { avatar, firstName, lastName, email, roles } = userFound
   return accessToken ? res.json({ avatar, firstName, lastName, email, roles, accessToken }) : httpErrors.wentWrong(res)
-}
-
-exports.signOut = async (req, res) => {
-  const debug = Debug('app:controllers:auth:signOut')
-  debug({ auth: req.auth })
-
-  const { uid: user, sid: uuid } = req.auth.token
-  await Session.deleteOne({ user, uuid })
-
-  return res.json({ signedOut: true })
 }
 
 exports.verifyEmail = async (req, res) => {
@@ -166,8 +157,7 @@ exports.signOut = async (req, res) => {
   await Session.deleteOne({ user, uuid })
 
   const sessions = await req.io.users.getUser(user, {})
-  if (sessions?.[uuid]?.constructor?.name === 'Array')
-    sessions[uuid].forEach((socketId) => req.io.to(socketId).emit('logout'))
+  if (isArray(sessions?.[uuid])) sessions[uuid].forEach((socketId) => req.io.to(socketId).emit('logout'))
 
   return res.json({ signedOut: true })
 }

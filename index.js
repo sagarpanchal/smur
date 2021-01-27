@@ -10,6 +10,7 @@ const middleware = require('middleware/middleware')
 const errorMiddleware = require('middleware/error.middleware')
 const preloadModels = require('models/preloadModels')
 const setupPassport = require('utils/passport/setupPassport')
+const { isFunction } = require('utils/utils')
 
 const createServer = require('utils/createServer')
 const asyncHandler = require('utils/factories/asyncError')
@@ -24,8 +25,8 @@ const PORT = config.get('port')
 
 const stop = (...args) => {
   debug(`${args.join(' ')}`)
-  mongoose.disconnect()
-  server.close()
+  if (isFunction(mongoose?.disconnect)) mongoose.disconnect()
+  if (isFunction(server?.close)) server.close()
 }
 
 const start = () =>

@@ -4,6 +4,7 @@ const helmet = require('helmet')
 const compression = require('compression')
 const passport = require('passport')
 const json = require('./json.middleware')
+const { isArray, isEmpty } = require('utils/utils')
 
 const middleware = []
 
@@ -23,7 +24,7 @@ if (config.get('env') === 'development') {
 if (config.get('env') === 'production') {
   const corsOrigins = config.get('corsOrigins')
 
-  if (corsOrigins?.length > 0) {
+  if (isArray(corsOrigins) && !isEmpty(corsOrigins)) {
     const origin = (origin, callback) => {
       corsOrigins.includes(origin)
         ? callback(null, true)

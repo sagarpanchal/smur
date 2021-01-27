@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run development",
     "dev": "npm run development",
-    "predevelopment": "npm run lint && npm run test",
+    "predevelopment": "npm run test",
     "development": "node_modules/.bin/cross-env NODE_PATH=. NODE_ENV=development DEBUG=app:* INIT=0 node development.js --use-strict",
     "prod": "npm run production",
     "prod-watch": "npm run production -- --watch",
@@ -49,6 +49,7 @@
     "ioredis-lock": "^4.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
+    "luxon": "^1.25.0",
     "mime": "^2.4.6",
     "moment": "^2.29.1",
     "mongoose": "^5.10.9",

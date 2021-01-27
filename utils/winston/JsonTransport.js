@@ -6,6 +6,7 @@ const moment = require('moment')
 const mkdirp = require('make-dir')
 const Transport = require('winston-transport')
 const { pfs } = require('utils/promisified')
+const { isString } = require('utils/utils')
 
 const getFileName = (date = moment()) => {
   // TODO: separate log file for each instance (for production)
@@ -33,7 +34,7 @@ class JsonTransport extends Transport {
       ISO: moment().toISOString(),
       Locale: moment().format('YYYY-MM-DD hh:mm:ss A'),
     }
-    if (info?.stack?.constructor?.name === 'String') info.stack = info.stack.toString().split('\n    ')
+    if (isString(info?.stack)) info.stack = info.stack.toString().split('\n    ')
     const line = `${JSON.stringify(info)}\n`
 
     try {
