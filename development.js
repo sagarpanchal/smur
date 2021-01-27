@@ -3,6 +3,7 @@ const nodemon = require('nodemon')
 const cli = require('utils/cli')
 
 nodemon({
+  exec: 'npm run lint && node',
   script: 'index.js',
   ext: 'js json pug ejs html env',
   ignore: ['public', '*.test.js'],
