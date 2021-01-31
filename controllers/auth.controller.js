@@ -18,9 +18,9 @@ exports.signInWithProvider = async (req, res) => {
   debug({ signin: req.user, auth: req.auth, errors: req.errors })
   if (req.errors) return httpErrors.sendError(res, req.errors)
 
-  const userFound = req.auth.user || req.user
+  const userFound = req.auth?.user || req?.user
   if (!userFound) return httpErrors.wentWrong(res)
-  if (req.auth.token) return res.status(204)
+  if (req.auth?.token) return res.status(204)
 
   const sessionSaved = await new Session({ user: userFound._id, uuid: uuid() }).save()
   if (!sessionSaved) return httpErrors.wentWrong(res)
@@ -30,7 +30,8 @@ exports.signInWithProvider = async (req, res) => {
     sid: sessionSaved.uuid,
   })
   const { avatar, firstName, lastName, email, roles } = userFound
-  return accessToken ? res.json({ avatar, firstName, lastName, email, roles, accessToken }) : httpErrors.wentWrong(res)
+  const resBody = { avatar, firstName, lastName, email, roles, accessToken }
+  return accessToken ? res.json(resBody) : httpErrors.wentWrong(res)
 }
 
 exports.signUp = async (req, res) => {
