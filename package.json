@@ -1,7 +1,15 @@
 {
   "name": "smur",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A ExpressJS REST API server with Socket.io, Mongodb, Redis, and Yup built-in for headstart. Check README for more info.",
+  "author": "Sagar Panchal <panchal.sagar@outlook.com>",
+  "keywords": [
+    "express",
+    "socket.io",
+    "mongoose",
+    "ioredis"
+  ],
+  "license": "MIT",
   "engines": {
     "node": ">=14.5.0"
   },
@@ -9,28 +17,21 @@
   "scripts": {
     "start": "npm run development",
     "dev": "npm run development",
-    "predevelopment": "npm run test",
+    "predevelopment": "npm run lint && npm run test",
     "development": "node_modules/.bin/cross-env NODE_PATH=. NODE_ENV=development DEBUG=app:* INIT=0 node development.js --use-strict",
     "prod": "npm run production",
     "prod-watch": "npm run production -- --watch",
     "prod-monit": "node_modules/.bin/pm2 monit",
     "prod-stop": "node_modules/.bin/pm2 stop smur",
-    "preproduction": "npm run lint && npm run test",
+    "preproduction": "npm run test",
     "production": "node_modules/.bin/cross-env NODE_PATH=. NODE_ENV=production NODE_CONFIG_STRICT_MODE=0 DEBUG= node_modules/.bin/pm2 start ./index.js -n 'smur' -i max",
     "lint": "node_modules/.bin/eslint .",
     "prettier-write": "node_modules/.bin/prettier --write \"./**/*.{js,json,yaml,md}\"",
     "eslint-fix": "node_modules/.bin/eslint --fix",
     "format": "npm run prettier-write && npm run eslint-fix",
-    "test": "node_modules/.bin/cross-env NODE_ENV=development NODE_PATH=. DEBUG=test:* node_modules/.bin/jest --verbose --passWithNoTests"
+    "test": "node_modules/.bin/cross-env NODE_ENV=development NODE_PATH=. DEBUG=test:* node_modules/.bin/jest --verbose --passWithNoTests",
+    "prepare": "husky install"
   },
-  "keywords": [
-    "express",
-    "socket.io",
-    "mongoose",
-    "ioredis"
-  ],
-  "author": "Sagar Panchal <panchal.sagar@outlook.com>",
-  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.912.0",
     "bcryptjs": "^2.4.3",
@@ -81,6 +82,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-recommended": "^4.1.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "nodemon": "2.0.7",
     "prettier": "^2.3.0"
