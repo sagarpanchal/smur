@@ -1,4 +1,5 @@
 const debug = require('debug')('app:utils:httpErrors')
+const { isObject } = require('./utils')
 
 /**
  * 400 - BadRequest
@@ -7,7 +8,7 @@ const debug = require('debug')('app:utils:httpErrors')
  * @param {*} message response message
  */
 exports.badRequest = (res, message = 'Bad request') => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(400).json(message)
 }
@@ -19,7 +20,7 @@ exports.badRequest = (res, message = 'Bad request') => {
  * @param {*} message response message
  */
 exports.unauthorized = (res, message = 'Unauthorized') => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(401).json(message)
 }
@@ -39,7 +40,7 @@ exports.invalidToken = (res) => module.exports.unauthorized(res, 'Invalid Token'
  * @param {*} message response message
  */
 exports.accessDenied = (res, message = 'Forbidden') => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(403).json(message)
 }
@@ -62,7 +63,7 @@ exports.notFound = (res, resourceName = undefined) => {
  * @param {*} message response message
  */
 exports.conflict = (res, message = 'Conflict') => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(409).json(message)
 }
@@ -86,7 +87,7 @@ exports.payloadTooLarge = (res, message = undefined) => {
  * @param {*} message response message
  */
 exports.unsupportedMediaType = (res, message = 'Unsupported media type') => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(415).json(message)
 }
@@ -99,7 +100,7 @@ exports.unsupportedMediaType = (res, message = 'Unsupported media type') => {
  * @param {Number} status response status
  */
 exports.sendError = (res, message = 'Unprocessable entity', status = 422) => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(status).json(message)
 }
@@ -111,7 +112,7 @@ exports.sendError = (res, message = 'Unprocessable entity', status = 422) => {
  * @param {*} message response message
  */
 exports.wentWrong = (res, message = 'Something went wrong') => {
-  message = typeof message === 'object' ? message : { message }
+  message = isObject(message) ? message : { message }
   debug(message)
   return res.status(500).json(message)
 }

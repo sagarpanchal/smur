@@ -1,11 +1,10 @@
 const debug = require('debug')('app:utils:transport')
 const config = require('config')
-const fs = require('fs')
+const fse = require('fs-extra')
 const path = require('path')
 const moment = require('moment')
 const mkdirp = require('make-dir')
 const Transport = require('winston-transport')
-const { pfs } = require('utils/promisified')
 const { isString } = require('utils/utils')
 
 const getFileName = (date = moment()) => {
@@ -38,11 +37,11 @@ class JsonTransport extends Transport {
     const line = `${JSON.stringify(info)}\n`
 
     try {
-      if (!fs.existsSync(this.filename, 'utf8')) {
+      if (!fse.existsSync(this.filename, 'utf8')) {
         await mkdirp(path.parse(this.filename).dir)
-        await pfs.writeFile(this.filename, line, 'utf8')
+        await fse.writeFile(this.filename, line, 'utf8')
       } else {
-        await pfs.appendFile(this.filename, line, 'utf8')
+        await fse.appendFile(this.filename, line, 'utf8')
       }
     } catch (error) {
       debug(error)

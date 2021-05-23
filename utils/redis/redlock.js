@@ -3,7 +3,7 @@ const IORedisLock = require('ioredis-lock')
 const asyncHandler = require('utils/factories/asyncError')
 const chalk = debug.enabled ? require('chalk') : undefined
 
-class Lock {
+class RedLock {
   /**
    * @param {RedisClient} redisClient Redis Client
    * @param {LockOptions} options
@@ -15,8 +15,8 @@ class Lock {
 
   /**
    * Lock redis key
-   * @param   {string} key key to aquire lock on
-   * @returns {Lock}   ioredis lock
+   * @param   {string}      key key to aquire lock on
+   * @returns {IORedisLock}     ioredis lock
    */
   async aquire(key) {
     const lock = IORedisLock.createLock(this.redis, this.options)
@@ -27,8 +27,8 @@ class Lock {
 
   /**
    * Unlock redis key
-   * @param   {Lock}    lock lock to release
-   * @returns {Boolean} lock released
+   * @param   {IORedisLock} lock lock to release
+   * @returns {Boolean}          lock released
    */
   async release(lock) {
     if (!lock._locked) return false
@@ -46,4 +46,4 @@ class Lock {
   }
 }
 
-module.exports = Lock
+module.exports = RedLock

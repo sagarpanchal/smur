@@ -1,12 +1,12 @@
-const fs = require('fs')
+const fse = require('fs-extra')
 const jwt = require('jsonwebtoken')
 const debug = require('debug')('app:utils:jwt')
 const reportError = require('utils/reportError')(debug)
 
 const rsaPrivatePath = './.keys/jwt_rsa.key'
 const rsaPublicPath = './.keys/jwt_rsa.key.pub'
-const rsaPrivate = fs.readFileSync(rsaPrivatePath)
-const rsaPublic = fs.readFileSync(rsaPublicPath)
+const rsaPrivate = fse.readFileSync(rsaPrivatePath)
+const rsaPublic = fse.readFileSync(rsaPublicPath)
 
 /**
  * Generate jsonwebtoken from object

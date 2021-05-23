@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fse = require('fs-extra')
 const jwt = require('utils/jwt')
 
 describe('JWT Utils', () => {
@@ -6,11 +6,11 @@ describe('JWT Utils', () => {
   let token
 
   test('should find rsa private key', () => {
-    expect(fs.existsSync(jwt.rsaPrivatePath)).toBe(true)
+    expect(fse.existsSync(jwt.rsaPrivatePath)).toBe(true)
   })
 
   test('should find rsa public key', () => {
-    expect(fs.existsSync(jwt.rsaPublicPath)).toBe(true)
+    expect(fse.existsSync(jwt.rsaPublicPath)).toBe(true)
   })
 
   test('should generate jwt', async () => {
