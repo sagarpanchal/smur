@@ -1,8 +1,9 @@
 {
   "env": {
     "es6": true,
+    "jest": true,
     "node": true,
-    "jest": true
+    "commonjs": true
   },
   "extends": ["eslint:recommended", "prettier"],
   "plugins": ["prettier"],
@@ -10,8 +11,11 @@
     "ecmaVersion": 2020
   },
   "rules": {
+    "array-callback-return": [1, { "allowImplicit": true }],
     "no-console": 1,
-    "no-unused-vars": 1,
+    "no-unused-vars": [1, { "ignoreRestSiblings": true }],
+    "no-use-before-define": 2,
+    "prefer-const": 1,
     "prettier/prettier": 2
   }
 }
