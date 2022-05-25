@@ -1,12 +1,13 @@
-const package = require('package')
+const package_ = require('package')
+
 const paths = require('./paths')
 
 module.exports = {
   openapi: '3.0.1',
   info: {
-    title: package.name,
+    title: package_.name,
     contact: { email: 'panchal.sagar@outlook.com' },
-    version: package.version,
+    version: package_.version,
   },
   servers: [{ url: 'https://localhost/api' }],
   tags: [{ name: 'Authentication' }],

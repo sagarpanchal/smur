@@ -1,10 +1,17 @@
+# Smur
+
+[![github license](https://img.shields.io/github/license/sagarpanchal/smur.svg?style=flat-square)](https://github.com/sagarpanchal/smur/blob/master/LICENSE)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
+<!-- [![GitHub top language](https://img.shields.io/github/languages/top/sagarpanchal/smur.svg?style=flat-square)](https://github.com/sagarpanchal/smur) -->
+
 ## 🚀 Getting Started
 
 ### 📋 Prerequisites
 
-- node >= v10.16.3
+- node >=14.5.0
 - mongodb >= v4.2
-- ~~redis-server >= v4.0.9 (for socket.io and cacheing)~~
+- ~~redis-server >= v4.0.9 (for socket.io and caching)~~
   - ~~wsl (only required on windows to run redis-server)~~
 
 ### 🔧 Installing

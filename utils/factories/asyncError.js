@@ -1,4 +1,5 @@
 const debug = require('debug')('app:utils:factories:asyncError')
+
 const reportError = require('utils/reportError')(debug)
 
 /**

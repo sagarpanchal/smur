@@ -1,6 +1,7 @@
 const debug = require('debug')('app:middleware:error')
-const reportError = require('utils/reportError')(debug)
+
 const { wentWrong } = require('utils/httpErrors')
+const reportError = require('utils/reportError')(debug)
 
 module.exports = (err, req, res, next) => {
   reportError(err)

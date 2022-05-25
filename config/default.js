@@ -21,7 +21,9 @@ module.exports = {
     useCreateIndex: true,
     useFindAndModify: false,
   },
-  apiDocs: false,
+  timezone: 'Asia/Kolkata',
+  locale: 'en-IN',
+  apiDocs: true,
   logger: ['json'],
   mailFrom: 'no-reply@localhost',
   mailer: {
@@ -34,13 +36,13 @@ module.exports = {
   },
   oAuth2: {
     facebook: {
-      clientID: '',
+      clientID: 'test',
       clientSecret: '',
       profileFields: ['id', 'first_name', 'last_name', 'emails', 'picture'],
       scope: ['email'],
     },
     google: {
-      clientID: '',
+      clientID: 'test',
       clientSecret: '',
       scope: ['profile', 'email'],
     },

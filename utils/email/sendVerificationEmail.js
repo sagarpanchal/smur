@@ -1,5 +1,7 @@
 const config = require('config')
+const htmlMinifier = require('html-minifier')
 const pug = require('pug')
+
 const sendMail = require('utils/email/sendEmail')
 
 const host = config.get('publicUrl')
@@ -14,10 +16,9 @@ const renderTemplate = pug.compileFile('./views/mail/verify-email.pug')
  * @param {object} params key - email-verification key
  */
 const sendVerificationEmail = (email, name, { key }) => {
-  const params = {
-    link: `${host}/verify-email/${key}`,
-  }
-  return sendMail(email, subject, renderTemplate({ subject, name, ...params }))
+  const variables = { subject, name, link: `${host}/verify-email/${key}` }
+  const html = htmlMinifier.minify(renderTemplate(variables))
+  return sendMail(email, subject, html)
 }
 
 module.exports = sendVerificationEmail

@@ -1,8 +1,9 @@
 const debug = require('debug')('app:middleware:passport:verify')
-const User = require('models/user.model')
+
 const OAuth = require('models/oauth.model')
-const validateEmail = require('utils/yup/validate/common/email.validate')
+const User = require('models/user.model')
 const reportError = require('utils/reportError')(debug)
+const validateEmail = require('utils/yup/validate/common/email.validate')
 
 const formatUserData = (profile) => {
   if (profile.provider === 'facebook') {

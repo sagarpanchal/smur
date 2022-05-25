@@ -5,7 +5,7 @@ if (!models.Session) {
     {
       user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
       uuid: { type: String, required: true },
-      // otid: { type: String, required: false },
+      otid: { type: String, required: false },
     },
     { timestamps: true, versionKey: false }
   )

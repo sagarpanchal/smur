@@ -1,10 +1,11 @@
 const Debug = require('debug')
 const multer = require('multer')
+
 const MulterError = require('middleware/multerError.middleware')
-const { s3Storage } = require('utils/multer/storage')
-const { imageFilter } = require('utils/multer/filter')
 const s3utils = require('utils/aws/AwsS3Helper')
 const httpErrors = require('utils/httpErrors')
+const { imageFilter } = require('utils/multer/filter')
+const { s3Storage } = require('utils/multer/storage')
 
 const files = multer({
   storage: s3Storage,

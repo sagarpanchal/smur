@@ -1,25 +1,27 @@
-const Debug = require('debug')
 const bcrypt = require('bcryptjs')
+const Debug = require('debug')
 const uuid = require('uuid').v4
-const User = require('models/user.model')
+
 const Session = require('models/session.model')
-const validateSignUp = require('utils/yup/validate/auth/signUp.validate')
-const validateSignIn = require('utils/yup/validate/auth/signIn.validate')
-const validateEmail = require('utils/yup/validate/common/email.validate')
-const validatePassword = require('utils/yup/validate/common/email.validate')
-const sendVerificationEmail = require('utils/email/sendVerificationEmail')
+const User = require('models/user.model')
 const sendPasswordResetEmail = require('utils/email/sendPasswordResetEmail')
+const sendVerificationEmail = require('utils/email/sendVerificationEmail')
 const httpErrors = require('utils/httpErrors')
 const jwt = require('utils/jwt')
+const { isArray } = require('utils/utils')
+const validateSignIn = require('utils/yup/validate/auth/signIn.validate')
+const validateSignUp = require('utils/yup/validate/auth/signUp.validate')
+const validateEmail = require('utils/yup/validate/common/email.validate')
+const validatePassword = require('utils/yup/validate/common/email.validate')
 
 exports.signInWithProvider = async (req, res) => {
   const debug = Debug('app:controllers:auth:signIn')
   debug({ signin: req.user, auth: req.auth, errors: req.errors })
   if (req.errors) return httpErrors.sendError(res, req.errors)
 
-  const userFound = req.auth.user || req.user
+  const userFound = req.auth?.user || req?.user
   if (!userFound) return httpErrors.wentWrong(res)
-  if (req.auth.token) return res.status(204)
+  if (req.auth?.token) return res.status(204)
 
   const sessionSaved = await new Session({ user: userFound._id, uuid: uuid() }).save()
   if (!sessionSaved) return httpErrors.wentWrong(res)
@@ -29,7 +31,8 @@ exports.signInWithProvider = async (req, res) => {
     sid: sessionSaved.uuid,
   })
   const { avatar, firstName, lastName, email, roles } = userFound
-  return accessToken ? res.json({ avatar, firstName, lastName, email, roles, accessToken }) : httpErrors.wentWrong(res)
+  const resBody = { avatar, firstName, lastName, email, roles, accessToken }
+  return accessToken ? res.json(resBody) : httpErrors.wentWrong(res)
 }
 
 exports.signUp = async (req, res) => {
@@ -42,9 +45,7 @@ exports.signUp = async (req, res) => {
   const { firstName, lastName, email } = req.body
   const verificationKey = uuid()
   if (!(await sendVerificationEmail(email, firstName, { key: verificationKey })))
-    return httpErrors.sendError(res, {
-      errors: { email: ["Couldn't send verification email"] },
-    })
+    return httpErrors.sendError(res, { errors: { email: ["Couldn't send verification email"] } })
 
   const password = await bcrypt.hash(req.body.password, 10)
   await new User({ firstName, lastName, email, password, verificationKey }).save()
@@ -69,16 +70,6 @@ exports.signIn = async (req, res) => {
   const accessToken = await jwt.generate({ uid: userFound._id, sid: sessionSaved.uuid })
   const { avatar, firstName, lastName, email, roles } = userFound
   return accessToken ? res.json({ avatar, firstName, lastName, email, roles, accessToken }) : httpErrors.wentWrong(res)
-}
-
-exports.signOut = async (req, res) => {
-  const debug = Debug('app:controllers:auth:signOut')
-  debug({ auth: req.auth })
-
-  const { uid: user, sid: uuid } = req.auth.token
-  await Session.deleteOne({ user, uuid })
-
-  return res.json({ signedOut: true })
 }
 
 exports.verifyEmail = async (req, res) => {
@@ -121,9 +112,7 @@ exports.forgotPassword = async (req, res) => {
 
   const { firstName, email, passwdResetKey } = userFound
   if (!(await sendPasswordResetEmail(firstName, email, passwdResetKey)))
-    return httpErrors.wentWrong(res, {
-      errors: { email: ["Couldn't send password reset email"] },
-    })
+    return httpErrors.wentWrong(res, { errors: { email: ["Couldn't send password reset email"] } })
 
   return res.json({ message: 'Check your email for password reset link' })
 }
@@ -151,11 +140,8 @@ exports.getOneTimeToken = async (req, res) => {
   const { user, session } = req.auth
   const sessionSaved = await session.set({ otid: uuid() }).save()
 
-  const wsAccessToken = await jwt.generate({
-    uid: user._id,
-    oid: sessionSaved.chat,
-  })
-  return res.json({ wsAccessToken })
+  const ott = await jwt.generate({ uid: user._id, oid: sessionSaved.otid })
+  return res.json({ ott })
 }
 
 exports.signOut = async (req, res) => {
@@ -165,9 +151,8 @@ exports.signOut = async (req, res) => {
   const { uid: user, sid: uuid } = req.auth.token
   await Session.deleteOne({ user, uuid })
 
-  const sessions = await req.io.users.getUser(user, {})
-  if (sessions?.[uuid]?.constructor?.name === 'Array')
-    sessions[uuid].forEach((socketId) => req.io.to(socketId).emit('logout'))
+  // const sessions = await req.io.users.getUser(user, {})
+  // if (isArray(sessions?.[uuid])) sessions[uuid].forEach((socketId) => req.io.to(socketId).emit('logout'))
 
   return res.json({ signedOut: true })
 }

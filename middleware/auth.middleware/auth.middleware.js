@@ -1,6 +1,7 @@
 // const debug = require('debug')('app:middleware:auth')
-const verifySession = require('./_verifySession')
 const httpErrors = require('utils/httpErrors')
+
+const verifySession = require('./_verifySession')
 
 module.exports = async (req, res, next) => {
   if (!req.header('authorization')) return httpErrors.unauthorized(res)
