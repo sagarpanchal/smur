@@ -1,5 +1,6 @@
-const Yup = require('utils/yup')
 const userTypes = require('utils/constants/userTypes.consts')
+
+const Yup = require('utils/yup')
 
 module.exports = (title = 'Type', required = true) => {
   let schema = Yup.array(

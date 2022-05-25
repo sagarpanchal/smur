@@ -1,5 +1,6 @@
 const debug = require('debug')('app:middleware:error:multer')
 const MulterError = require('multer').MulterError
+
 const httpErrors = require('utils/httpErrors')
 const reportError = require('utils/reportError')(debug)
 

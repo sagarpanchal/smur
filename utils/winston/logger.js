@@ -1,5 +1,6 @@
 const config = require('config')
 const winston = require('winston')
+
 const logTo = config.get('logger')
 const transports = []
 

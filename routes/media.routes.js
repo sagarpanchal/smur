@@ -1,4 +1,5 @@
 const router = require('express').Router()
+
 const MediaController = require('controllers/media.controller')
 const AuthMiddleware = require('middleware/auth.middleware/auth.middleware')
 

@@ -1,11 +1,13 @@
-const debug = require('debug')('app:utils:transport')
-const config = require('config')
-const fs = require('fs')
 const path = require('path')
-const moment = require('moment')
+
+const config = require('config')
+const debug = require('debug')('app:utils:transport')
+const fse = require('fs-extra')
 const mkdirp = require('make-dir')
+const moment = require('moment')
 const Transport = require('winston-transport')
-const { pfs } = require('utils/promisified')
+
+const { isString } = require('utils/utils')
 
 const getFileName = (date = moment()) => {
   // TODO: separate log file for each instance (for production)
@@ -33,15 +35,15 @@ class JsonTransport extends Transport {
       ISO: moment().toISOString(),
       Locale: moment().format('YYYY-MM-DD hh:mm:ss A'),
     }
-    if (info?.stack?.constructor?.name === 'String') info.stack = info.stack.toString().split('\n    ')
+    if (isString(info?.stack)) info.stack = info.stack.toString().split('\n    ')
     const line = `${JSON.stringify(info)}\n`
 
     try {
-      if (!fs.existsSync(this.filename, 'utf8')) {
+      if (!fse.existsSync(this.filename, 'utf8')) {
         await mkdirp(path.parse(this.filename).dir)
-        await pfs.writeFile(this.filename, line, 'utf8')
+        await fse.writeFile(this.filename, line, 'utf8')
       } else {
-        await pfs.appendFile(this.filename, line, 'utf8')
+        await fse.appendFile(this.filename, line, 'utf8')
       }
     } catch (error) {
       debug(error)

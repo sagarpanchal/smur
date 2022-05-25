@@ -1,9 +1,10 @@
-const jwt = require('utils/jwt')
-const User = require('models/user.model')
 const Session = require('models/session.model')
+const User = require('models/user.model')
+const jwt = require('utils/jwt')
+const { isString } = require('utils/utils')
 
 module.exports = async (bearerToken) => {
-  if (typeof bearerToken !== 'string') return false
+  if (isString(bearerToken)) return false
 
   const auth = bearerToken.split(' ')
   if (auth.length < 2) return false

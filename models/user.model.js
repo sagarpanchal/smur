@@ -1,4 +1,5 @@
 const { Schema, model, models } = require('mongoose')
+
 const userRoles = require('utils/constants/userRoles.consts')
 
 if (!models.User) {

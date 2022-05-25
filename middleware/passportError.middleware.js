@@ -1,5 +1,6 @@
 const debug = require('debug')('app:middleware:error:passport')
 const passportOAuth2 = require('passport-oauth2')
+
 const httpErrors = require('utils/httpErrors')
 const reportError = require('utils/reportError')(debug)
 

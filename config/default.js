@@ -21,6 +21,8 @@ module.exports = {
     useCreateIndex: true,
     useFindAndModify: false,
   },
+  timezone: 'Asia/Kolkata',
+  locale: 'en-IN',
   apiDocs: false,
   logger: ['json'],
   mailFrom: 'no-reply@localhost',

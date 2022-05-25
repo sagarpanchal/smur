@@ -1,8 +1,9 @@
 // const debug = require("debug")("app:multer:storage");
+const mime = require('mime')
 const multer = require('multer')
 const multerS3 = require('multer-s3')
-const mime = require('mime')
 const uuid = require('uuid').v4
+
 const s3Utils = require('utils/aws/AwsS3Helper')
 
 /** Get accurate file extension */

@@ -1,20 +1,21 @@
 require('dotenv').config()
-const debug = require('debug')('app:index.js')
 const config = require('config')
+const debug = require('debug')('app:index.js')
 const express = require('express')
 const mongoose = require('mongoose')
+const open = require('open')
 require('express-async-errors')
 
-const routes = require('routes/routes')
-const middleware = require('middleware/middleware')
 const errorMiddleware = require('middleware/error.middleware')
+const middleware = require('middleware/middleware')
 const preloadModels = require('models/preloadModels')
-const setupPassport = require('utils/passport/setupPassport')
-
+const routes = require('routes/routes')
+const cli = require('utils/cli')
 const createServer = require('utils/createServer')
 const asyncHandler = require('utils/factories/asyncError')
+const setupPassport = require('utils/passport/setupPassport')
 const reportError = require('utils/reportError')(debug)
-const cli = require('utils/cli')
+const { isFunction } = require('utils/utils')
 
 const app = express()
 const server = createServer(app)
@@ -24,11 +25,11 @@ const PORT = config.get('port')
 
 const stop = (...args) => {
   debug(`${args.join(' ')}`)
-  mongoose.disconnect()
-  server.close()
+  if (isFunction(mongoose?.disconnect)) mongoose.disconnect()
+  if (isFunction(server?.close)) server.close()
 }
 
-const start = () =>
+const start = () => {
   asyncHandler(async () => {
     // connect to database
     await mongoose.connect(DB, {
@@ -57,6 +58,7 @@ const start = () =>
     // Start listening to requests
     server.listen(config.get('port'))
   })
+}
 
 mongoose.connection
   .on('connected', () => debug(cli.messages.databaseConnected(DB)))
@@ -78,7 +80,7 @@ if (config.get('env') === 'development') {
   if (process.env.INIT === '0') {
     server.on('listening', () => {
       // Serve openapi docs in browser
-      require('open')(`${config.get('publicUrl')}/api/docs`)
+      open(`${config.get('publicUrl')}/api/docs`)
     })
   }
 }

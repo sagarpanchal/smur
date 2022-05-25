@@ -1,5 +1,6 @@
 const config = require('config')
 const nodemailer = require('nodemailer')
+
 const asyncHandler = require('utils/factories/asyncError')
 
 const from = `${config.get('mailFrom')} <${config.get('mailer.auth.user')}>`

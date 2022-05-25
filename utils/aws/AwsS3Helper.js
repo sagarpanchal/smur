@@ -1,6 +1,7 @@
-const debug = require('debug')('app:utils:aws:s3-utils')
-const config = require('config')
 const aws = require('aws-sdk')
+const config = require('config')
+const debug = require('debug')('app:utils:aws:s3-utils')
+
 const asyncHandler = require('utils/factories/asyncError')
 
 aws.config.update(config.get('aws.config'))

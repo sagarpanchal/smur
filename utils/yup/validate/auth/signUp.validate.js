@@ -1,8 +1,9 @@
 const Yup = require('yup')
-const name = require('utils/yup/rules/name')
-const email = require('utils/yup/rules/email')
-const password = require('utils/yup/rules/password')
+
 const getErrors = require('utils/yup/getErrors')
+const email = require('utils/yup/rules/email')
+const name = require('utils/yup/rules/name')
+const password = require('utils/yup/rules/password')
 
 const schema = Yup.object().shape({
   firstName: name(),
